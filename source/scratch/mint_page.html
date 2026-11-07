@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>AgentID · Mint</title>
+<link rel="icon" type="image/png" href="/assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,420;9..144,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mint:#ECEEFC; --mint-2:#E1E4FA; --green:#5563D8; --green-ink:#2f3570;
+    --ink:#1a1d3a; --black:#090b22; --line:rgba(47,53,112,.15); --dot:#AEB8F0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--mint); color:var(--ink); font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.5}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px}
+  a{color:inherit; text-decoration:none}
+  .serif{font-family:"Fraunces",Georgia,serif; font-weight:420; letter-spacing:-.02em}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  .up{text-transform:uppercase; letter-spacing:.14em; font-size:11.5px}
+
+  nav{position:sticky; top:0; z-index:40; background:rgba(236,238,252,.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .nav{display:flex; align-items:center; gap:18px; height:62px}
+  .brand{display:flex; align-items:center; gap:11px; font-family:"Fraunces",serif; font-size:21px; color:var(--green); letter-spacing:-.02em}
+  .mark{width:26px; height:26px; border-radius:7px; display:block}
+  .nav .sp{flex:1}
+  .nlink{color:var(--green-ink); font-size:14.5px; opacity:.86}
+  .nlink:hover{opacity:1}
+  .nlink.on{opacity:1; color:var(--green)}
+  .pill{display:inline-flex; align-items:center; gap:8px; background:var(--black); color:var(--mint); padding:8px 14px; border-radius:999px; font-size:13px}
+  .pill .dot{width:7px;height:7px;border-radius:50%;background:#8E9BFF;box-shadow:0 0 0 0 rgba(142,155,255,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(142,155,255,.55)}70%{box-shadow:0 0 0 7px rgba(142,155,255,0)}100%{box-shadow:0 0 0 0 rgba(142,155,255,0)}}
+
+  .lead{padding:56px 0 24px; text-align:center}
+  h1.big{font-family:"Fraunces",serif; font-weight:340; color:var(--green); font-size:clamp(40px,7vw,80px); line-height:.98; letter-spacing:-.035em; margin:0}
+  h1.big b{font-weight:500}
+  .sub{max-width:640px; margin:22px auto 0; font-size:18px; color:var(--green-ink); opacity:.84}
+  .sub .mono{font-size:16px}
+  .cdwrap{text-align:center; margin:30px 0 2px}
+  .cdlabel{letter-spacing:.14em; font-size:12px; color:var(--green); opacity:.72}
+  .cd{display:inline-flex; gap:10px; margin-top:14px}
+  .cd .u{min-width:74px; padding:14px 10px 11px; background:#fff; border:1px solid var(--line); border-radius:14px}
+  .cd .n{font-family:"Fraunces",serif; font-size:36px; color:var(--green); line-height:1; font-variant-numeric:tabular-nums}
+  .cd .l{font-size:10.5px; text-transform:uppercase; letter-spacing:.12em; opacity:.5; margin-top:7px}
+  .navcd{font-variant-numeric:tabular-nums}
+  .navstat{font-size:13px; color:var(--green-ink); opacity:.72; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .livebadge{display:none; margin-top:14px}
+  .livebadge .pill{background:var(--green)}
+  .herocta-wrap{margin-top:28px}
+  .herocta{display:inline-flex; align-items:center; gap:8px; background:var(--black); color:var(--mint); padding:14px 24px; border-radius:12px; font-size:15px; transition:.16s}
+  .herocta:hover{background:#1a1f45}
+  .heroprog{max-width:600px; margin:34px auto 0; text-align:left}
+  .hp-top{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:9px}
+  .hp-label{opacity:.6; font-size:11px; color:var(--green-ink)}
+  .hp-tier{color:var(--green); font-size:12px}
+  .hp-bar{position:relative; height:12px; background:var(--mint-2); border:1px solid var(--line); border-radius:999px; overflow:hidden}
+  .hp-bar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,#627EEA,#AEB8F0); transition:width .5s ease}
+  .hp-mark{position:absolute; top:0; bottom:0; width:2px; background:var(--green-ink); opacity:.6; z-index:1}
+  .hp-legend{display:flex; justify-content:center; gap:10px; font-size:11.5px; color:var(--green-ink); opacity:.65; margin-top:10px; flex-wrap:wrap}
+  .hp-legend b{color:var(--green); opacity:1}
+  /* trade (shown post pool-open) */
+  .btn2{display:inline-flex; align-items:center; gap:8px; padding:14px 22px; border-radius:12px; border:1px solid var(--green); color:var(--green); font-size:15px; transition:.16s}
+  .btn2:hover{background:var(--green); color:#fff}
+  .tradecta{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:30px}
+  /* faq + extra centered sections */
+  #trade > .wrap > .eyebrow, #faq > .wrap > .eyebrow{justify-content:center}
+  #trade > .wrap > h2, #faq > .wrap > h2{text-align:center}
+  #trade > .wrap > p.muted, #faq > .wrap > p.muted{text-align:center; max-width:680px; margin-left:auto; margin-right:auto}
+  .faq{margin:30px auto 0; max-width:720px}
+  .qa{padding:18px 0; border-top:1px solid var(--line)}
+  .qa .q{font-weight:600; color:var(--green-ink); font-size:16px}
+  .qa .a{margin-top:7px; color:var(--ink); opacity:.82; font-size:14.5px; line-height:1.6}
+  .qa .a a{color:var(--green); text-decoration:underline; text-underline-offset:2px}
+
+  section{padding:58px 0}
+  .eyebrow{display:flex; align-items:center; gap:10px; color:var(--green); margin-bottom:16px}
+  .eyebrow .ln{height:1px; width:38px; background:var(--green); opacity:.5}
+  h2{font-family:"Fraunces",serif; font-weight:360; color:var(--green); font-size:clamp(28px,4vw,42px); letter-spacing:-.025em; margin:0 0 10px}
+  .muted{color:var(--green-ink); opacity:.78}
+
+  /* three live rounds */
+  .bars{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:34px}
+  @media(max-width:860px){.bars{grid-template-columns:1fr}}
+  .pbar{background:rgba(255,255,255,.5); border:1px solid var(--line); border-radius:15px; padding:22px; text-align:center}
+  .pbar .k{color:var(--green); font-weight:500; display:flex; align-items:center; justify-content:center; gap:8px; font-size:16px}
+  .pbar .tag{font-size:11px; padding:3px 9px; border-radius:999px; background:var(--mint-2); border:1px solid var(--line); color:var(--green-ink)}
+  .pbar .big2{font-family:"Fraunces",serif; font-size:40px; color:var(--green); line-height:1; margin:14px 0 2px; font-variant-numeric:tabular-nums}
+  .pbar .den{font-size:13px; opacity:.6}
+  .bar{height:8px; background:var(--mint-2); border-radius:999px; overflow:hidden; border:1px solid var(--line); margin:12px 0 10px}
+  .paidbar{position:relative}
+  .poolmark{position:absolute; top:0; bottom:0; left:2.25%; width:2px; background:var(--green-ink); opacity:.6; z-index:1}
+  .bar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,#627EEA,#AEB8F0); transition:width .5s ease}
+  .pbar .meta{font-size:13px; opacity:.74; line-height:1.55}
+
+  /* prompt cards */
+  .pgrid{display:grid; grid-template-columns:1fr; gap:18px; margin-top:30px}
+  .prompt{background:rgba(255,255,255,.5); border:1px solid var(--line); border-radius:15px; overflow:hidden}
+  .prompt .ph{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:15px 18px; border-bottom:1px solid var(--line)}
+  .prompt .pt{font-weight:500; color:var(--green-ink); font-size:15.5px}
+  .prompt .pp{font-size:12px; opacity:.6}
+  .prompt pre{margin:0; padding:17px 18px; font-family:"IBM Plex Mono",monospace; font-size:11.5px; line-height:1.7; white-space:pre-wrap; word-break:break-word; color:var(--ink); background:#fbfbff}
+  .cpbtn{font-size:12.5px; border:1px solid var(--green); color:var(--green); background:transparent; padding:8px 15px; border-radius:9px; cursor:pointer; white-space:nowrap; transition:.15s}
+  .cpbtn:hover{background:var(--green); color:#fff}
+  .req{background:var(--black); color:var(--mint); border-radius:14px; padding:18px 20px; margin-top:4px; font-size:13.5px; line-height:1.7}
+  .req b{color:#AEB8F0}
+  .req a{color:#AEB8F0; text-decoration:underline; text-underline-offset:2px}
+  .fillrow{margin:26px 0 6px}
+  .field{display:flex; gap:10px; max-width:560px}
+  .field input{flex:1; padding:12px 15px; border-radius:11px; border:1px solid var(--line); background:#fff; font-size:15px; color:var(--ink); font-family:"IBM Plex Mono",monospace}
+  .field input:focus{outline:none; border-color:var(--green)}
+  .fillbtn{font-size:14px; border:1px solid var(--green); color:var(--green); background:transparent; padding:12px 20px; border-radius:11px; cursor:pointer; white-space:nowrap; transition:.15s}
+  .fillbtn:hover{background:var(--green); color:#fff}
+  .fillnote{color:var(--green-ink); opacity:.78; font-size:12.5px; margin-top:9px; min-height:18px}
+  .fillnote.ok{color:#2a8f5a; opacity:1}
+  /* centered section headers */
+  #rounds > .wrap > .eyebrow, #stats > .wrap > .eyebrow, #how > .wrap > .eyebrow, #economics > .wrap > .eyebrow, #contracts > .wrap > .eyebrow{justify-content:center}
+  #rounds > .wrap > h2, #stats > .wrap > h2, #how > .wrap > h2, #economics > .wrap > h2, #contracts > .wrap > h2{text-align:center}
+  #rounds > .wrap > p.muted, #stats > .wrap > p.muted, #how > .wrap > p.muted, #contracts > .wrap > p.muted{text-align:center; max-width:680px; margin-left:auto; margin-right:auto}
+  /* live stats tiles */
+  .statgrid{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:1fr; gap:16px; margin-top:34px}
+  @media(max-width:860px){.statgrid{grid-template-columns:repeat(2,1fr)}}
+  .stile{background:rgba(255,255,255,.5); border:1px solid var(--line); border-radius:14px; padding:18px 18px 16px}
+  .stile .sv{font-family:"Fraunces",serif; font-size:30px; color:var(--green); line-height:1; font-variant-numeric:tabular-nums}
+  .stile .sl{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--green-ink); opacity:.62; margin-top:11px}
+  .stile .sx{font-size:11.5px; opacity:.52; margin-top:4px}
+  .stile{display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center}
+  .stile .sico{width:42px; height:42px; box-sizing:border-box; object-fit:contain; padding:9px; border-radius:12px; background:var(--mint-2); margin-bottom:14px}
+  /* how-to: two cards (field | prompt) */
+  .howgrid{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:stretch; margin-top:30px}
+  @media(max-width:860px){.howgrid{grid-template-columns:1fr}}
+  .howgrid .prompt{display:flex; flex-direction:column}
+  .howgrid .prompt pre{flex:1}
+  .needbox{margin-top:18px; padding-top:16px; border-top:1px solid var(--line); font-size:13px; line-height:1.65; color:var(--green-ink); opacity:.92}
+  .needbox a{color:var(--green); text-decoration:underline; text-underline-offset:2px}
+  .allocpanel{margin-top:18px}
+  .ar{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:9px 0; font-size:13px; border-bottom:1px solid var(--line)}
+  .ar .ak{color:var(--green-ink); opacity:.65}
+  .ar .av{font-family:"IBM Plex Mono",monospace; text-align:right; color:var(--ink)}
+  .ar .av.hl{color:var(--green); font-weight:500}
+  .claimline{margin-top:12px; background:var(--mint-2); border:1px solid var(--line); border-radius:11px; padding:12px 14px; font-size:12.5px; color:var(--green-ink); line-height:1.6}
+  .claimline b{color:var(--green)}
+
+  /* economics */
+  .econgrid{display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:34px; align-items:stretch}
+  @media(max-width:860px){.econgrid{grid-template-columns:1fr}}
+  .econgrid .card{display:flex; flex-direction:column; justify-content:space-between}
+  .card{background:rgba(255,255,255,.5); border:1px solid var(--line); border-radius:16px; padding:22px 24px}
+  .chartwrap{position:relative}
+  canvas#ladder{width:100%; height:320px; display:block}
+  .chartcap{font-size:12px; opacity:.6; margin-top:10px; text-align:center}
+  .prow{display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:11px 0; border-bottom:1px solid var(--line); font-size:14px}
+  .prow:last-child{border-bottom:none}
+  .prow .pk{color:var(--green-ink); opacity:.72}
+  .prow .pv{font-family:"IBM Plex Mono",monospace; text-align:right}
+  .pricebox{display:flex; gap:18px; flex-wrap:wrap; margin-top:18px; padding-top:16px; border-top:1px solid var(--line)}
+  .pricebox .pc{flex:1; min-width:120px}
+  .pricebox .pc .n{font-family:"Fraunces",serif; font-size:30px; color:var(--green); line-height:1}
+  .pricebox .pc .l{font-size:11.5px; opacity:.6; margin-top:5px; text-transform:uppercase; letter-spacing:.1em}
+
+  /* contracts */
+  .addrs{margin-top:28px}
+  .arow{display:flex; justify-content:space-between; align-items:center; gap:14px; padding:13px 0; border-bottom:1px solid var(--line); font-size:14px}
+  .arow .ak{color:var(--green-ink); opacity:.72; flex:0 0 auto}
+  .arow .av{font-family:"IBM Plex Mono",monospace; text-align:right; word-break:break-all}
+  .arow .av a{color:var(--green); text-decoration:underline; text-underline-offset:2px}
+  .sot{font-size:12.5px; opacity:.6; margin-top:14px}
+
+  footer{border-top:1px solid var(--line); padding:48px 0 40px; margin-top:30px; color:var(--green-ink)}
+  .fwrap{max-width:1200px; margin:0 auto; padding:0 24px}
+  .fgrid{display:flex; gap:48px; flex-wrap:wrap; align-items:flex-start}
+  .fbrand{flex:1 1 240px; min-width:200px}
+  .fcol{display:flex; flex-direction:column; gap:10px; font-size:13.5px}
+  .fcol a,.fcol span{color:var(--green-ink); opacity:.82; width:fit-content}
+  .fh{text-transform:uppercase; letter-spacing:.14em; font-size:11px; opacity:.5; margin-bottom:3px}
+  .fbar{display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:36px; padding-top:20px; border-top:1px solid var(--line); font-size:12px}
+  .fbar .sp{flex:1}
+  @media(max-width:620px){ .nav{gap:12px;height:58px}.brand{font-size:19px}.navcd,.navstat,.pill{display:none}.cd{display:flex;width:100%;gap:8px}.cd .u{flex:1;min-width:0;padding:13px 4px 10px}.cd .n{font-size:28px} }
+  .ficons{display:flex; gap:15px; margin-top:18px; align-items:center}
+  .ficons a{display:inline-flex; opacity:.72; transition:opacity .15s}
+  .ficons a:hover{opacity:1}
+  .ficons img{width:20px; height:20px; object-fit:contain; display:block}
+  .ficons .soon-ico{display:inline-flex; opacity:.4; cursor:default}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <a class="brand" href="/"><img class="mark" src="/assets/logo.png" alt="" /> AgentID</a>
+  <span class="navstat mono" id="navstat">0 / 445,000 · $1.00</span>
+  <span class="sp"></span>
+  <a class="nlink" href="/docs/">Docs</a>
+  <a class="nlink" href="/tasks">Tasks</a>
+  <a class="nlink on" href="/mint">Mint</a>
+  <a class="nlink" href="/refund">Refund</a>
+  <a class="nlink" id="nav-trade" href="#" target="_blank" rel="noopener" style="display:none">Trade</a>
+  <span class="pill"><span class="dot"></span> Ethereum Mainnet</span>
+</div></nav>
+
+<div class="wrap">
+  <div class="lead">
+    <h1 class="big">Mint <b>$AGI</b>.</h1>
+    <p class="sub">The first ERC-20 minted by an agentic wallet on Ethereum. Minting is <b>agentic-wallet only</b> — you drive it with a prompt to your agent. No browser wallet, no manual signing.</p>
+    <div class="herocta-wrap"><a class="herocta" href="#how">Get my mint prompt →</a></div>
+    <div class="cdwrap">
+      <div class="cdlabel up mono" id="cdlabel">Mint opens · Nov 5, 15:00 UTC</div>
+      <div class="cd" id="cd">
+        <div class="u"><div class="n" id="cd-d">00</div><div class="l">days</div></div>
+        <div class="u"><div class="n" id="cd-h">00</div><div class="l">hrs</div></div>
+        <div class="u"><div class="n" id="cd-m">00</div><div class="l">min</div></div>
+        <div class="u"><div class="n" id="cd-s">00</div><div class="l">sec</div></div>
+      </div>
+      <div class="livebadge" id="livebadge"><span class="pill"><span class="dot"></span> Mint is live</span></div>
+    </div>
+    <div class="heroprog">
+      <div class="hp-top">
+        <span class="hp-label up mono">Mint progress</span>
+        <span class="hp-tier mono" id="hp-tier">current tier $1.00</span>
+      </div>
+      <div class="hp-bar"><i id="hp-fill"></i><span class="hp-mark" style="left:2.25%" title="pool opens at 10,000"></span></div>
+      <div class="hp-legend mono"><span><b id="hp-total">0</b> / 445,000 shares minted · all three rounds</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- trade (shown once the pool opens) -->
+<section id="trade" style="display:none"><div class="wrap">
+  <div class="eyebrow up mono"><span class="ln"></span> Live · Uniswap V2</div>
+  <h2>Trade $AGI</h2>
+  <p class="muted">The pool is open — anyone can buy and sell $AGI on Uniswap. A regular wallet works, no Agent ID needed. Buys and sells carry a 1% tax; wallet-to-wallet is free.</p>
+  <div class="tradecta">
+    <a class="herocta" id="t-uni" href="#" target="_blank" rel="noopener">Buy on Uniswap →</a>
+    <a class="btn2" id="t-chart" href="#" target="_blank" rel="noopener">View chart</a>
+  </div>
+</div></section>
+
+<!-- how to mint, via prompt -->
+<section id="how"><div class="wrap">
+  <div class="eyebrow up mono"><span class="ln"></span> How to mint</div>
+  <h2>Hand your agent a prompt</h2>
+  <p class="muted">AgentID is minted by agents, for agents. You do not sign anything in a browser. Enter your Agent ID, then hand the generated prompt to your agent; it fetches signed vouchers from the backend and submits every mint you are entitled to through your Binance Agentic Wallet.</p>
+
+  <div class="howgrid">
+    <div class="card">
+      <div class="up mono" style="color:var(--green);opacity:.7;margin-bottom:9px">Enter your Agent ID</div>
+      <div class="field">
+        <input id="myHandle" placeholder="yourname.ai" spellcheck="false" oninput="onHandleInput()" onkeydown="if(event.key==='Enter')loadMe()" />
+        <button class="fillbtn" onclick="loadMe()">Load</button>
+      </div>
+      <div id="fillNote" class="fillnote">We drop it into the prompt and auto-fill your wallet and whitelist allocation.</div>
+      <div class="allocpanel">
+        <div class="ar"><span class="ak">Whitelist allocation</span><span class="av" id="ap-wl">1 / Agent ID</span></div>
+        <div class="ar"><span class="ak">Invites completed</span><span class="av" id="ap-inv">—</span></div>
+        <div class="ar"><span class="ak">Public free</span><span class="av">up to 4 / Agent ID</span></div>
+        <div class="ar"><span class="ak">Paid ladder</span><span class="av">up to 15 / wallet · 10 / tx</span></div>
+        <div class="ar"><span class="ak">Paid shares to mint</span><span class="av"><input type="number" id="paidN" min="0" max="15" value="0" oninput="setPaid(this.value)" style="width:64px;text-align:right;background:#fff;border:1px solid var(--line);border-radius:7px;padding:5px 8px;font:inherit;font-size:13px;color:var(--green)"></span></div>
+        <div class="ar"><span class="ak">Your wallet</span><span class="av" id="ap-wallet">—</span></div>
+        <div class="claimline" id="claimLine">Enter your Agent ID above to see your exact whitelist allocation, invites, and what you can claim at the mint.</div>
+      </div>
+      <div class="needbox">
+        <div class="up mono" style="color:var(--green);opacity:.7;margin-bottom:8px">You need</div>
+        A Binance Agentic Wallet holding a <b>verified .ai Agent ID</b>, funded with a little ETH for gas (and for paid shares). No Agent ID yet? <a href="https://developers.binance.com/en/docs/products/agentic-wallet/welcome" target="_blank" rel="noopener">Set one up</a>. The backend only signs a voucher for the wallet that owns the Agent ID, so the mint is the agent's own.
+      </div>
+    </div>
+    <div class="prompt">
+      <div class="ph"><div><div class="pt">Your mint prompt</div><div class="pp">claims your free shares, plus paid if you want</div></div><div style="display:flex;gap:8px"><button class="cpbtn" onclick="cp('p-all',this)">Copy</button><button class="cpbtn" onclick="composeMintTweet()">Share on X</button></div></div>
+      <pre id="p-all"></pre>
+    </div>
+  </div>
+  <p class="muted" style="font-size:12.5px;margin-top:16px;text-align:center">Minting reverts until Nov 5, 15:00 UTC, then opens automatically. Your agent handles the nonce and deadline.</p>
+</div></section>
+
+<!-- three parallel rounds -->
+<section id="rounds"><div class="wrap">
+  <div class="eyebrow up mono"><span class="ln"></span> Three rounds, in parallel</div>
+  <h2>WL free · public free · paid ladder</h2>
+  <p class="muted" style="max-width:660px">All three open at the same time and run side by side. Paid minting never waits for the free rounds to fill. Every round is agentic-wallet only and gated by a verified <span class="mono">.ai</span> Agent ID. <span id="roundsNote">Minting opens soon, so each round shows 0 so far.</span></p>
+  <div class="bars">
+    <div class="pbar">
+      <div class="k">Whitelist free <span class="tag">$0</span></div>
+      <div class="big2"><span id="wlN">0</span></div>
+      <div class="den">/ 500 whitelist shares minted</div>
+      <div class="bar"><i id="wlBar" style="width:0%"></i></div>
+      <div class="meta">Free, 1 per Agent ID for finishing the social tasks. The round is full (500/500); agents claim at the mint.</div>
+    </div>
+    <div class="pbar">
+      <div class="k">Public free <span class="tag">$0</span></div>
+      <div class="big2"><span id="pubN">0</span></div>
+      <div class="den">/ 500 public shares minted</div>
+      <div class="bar"><i id="pubBar"></i></div>
+      <div class="meta">Free, 500 shares. Invite bonuses are reserved to you (+1 per invited agent who finished); the rest is first come for registered agents. Can run out.</div>
+    </div>
+    <div class="pbar">
+      <div class="k">Paid ladder <span class="tag" id="priceTag">from $1</span></div>
+      <div class="big2"><span id="paidN">0</span></div>
+      <div class="den">/ 444,000 minted · pool opens at 10,000</div>
+      <div class="bar paidbar"><i id="paidBar"></i><span class="poolmark" title="pool opens at 10,000"></span></div>
+      <div class="meta">Priced in USD, paid in ETH. $1 flat to 10,000, then up to $8.04. Max 15 per wallet, 10 per tx.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- live on-chain stats -->
+<section id="stats"><div class="wrap">
+  <div class="eyebrow up mono"><span class="ln"></span> Live · on-chain</div>
+  <h2>Mint stats</h2>
+  <p class="muted">Read live from the contract on Ethereum mainnet. Everything reads 0 until the mint opens Nov 5, 15:00 UTC.</p>
+  <div class="statgrid">
+    <div class="stile"><img class="sico" src="/assets/icons/paid-shares.png" alt=""><div class="sv" id="st-paid">—</div><div class="sl">Paid shares minted</div><div class="sx">of 444,000 · pool at 10,000</div></div>
+    <div class="stile"><img class="sico" src="/assets/icons/escrow.png" alt=""><div class="sv" id="st-escrow">—</div><div class="sl">ETH in escrow</div><div class="sx">100% refundable pre-open</div></div>
+    <div class="stile"><img class="sico" src="/assets/icons/raised.png" alt=""><div class="sv" id="st-raised">—</div><div class="sl">Total raised</div><div class="sx">paid-mint ETH</div></div>
+    <div class="stile"><img class="sico" src="/assets/icons/pool.png" alt=""><div class="sv" id="st-pool">—</div><div class="sl">Pool</div><div class="sx">opens at 10,000 paid</div></div>
+    <div class="stile"><img class="sico" src="/assets/icons/wl.png" alt=""><div class="sv" id="st-wl">—</div><div class="sl">WL free claimed</div><div class="sx">of 500</div></div>
+    <div class="stile"><img class="sico" src="/assets/icons/public.png" alt=""><div class="sv" id="st-pub">—</div><div class="sl">Public free claimed</div><div class="sx">of 500</div></div>
+    <div class="stile"><img class="sico" src="/assets/icons/supply.png" alt=""><div class="sv" id="st-supply">—</div><div class="sl">$AGI supply</div><div class="sx">of 4.44B cap</div></div>
+    <div class="stile"><img class="sico" src="/assets/icons/burned.png" alt=""><div class="sv" id="st-burn">—</div><div class="sl">$AGI burned</div><div class="sx">sent to 0x…dEaD</div></div>
+  </div>
+</div></section>
+
+<!-- economics -->
+<section id="economics"><div class="wrap">
+  <div class="eyebrow up mono"><span class="ln"></span> Economics</div>
+  <h2>The full picture</h2>
+  <div class="econgrid">
+    <div class="card chartwrap">
+      <div class="up mono" style="color:var(--green);opacity:.7;margin-bottom:6px">Price ladder · paid shares</div>
+      <canvas id="ladder" width="620" height="240"></canvas>
+      <div class="chartcap mono">$1.00 flat to 10,000 (pool opens), then +$0.16 per 10,000 band to $8.04 at 444,000.</div>
+      <div class="pricebox">
+        <div class="pc"><div class="n" id="pxUsd">$1.00</div><div class="l">price now (USD)</div></div>
+        <div class="pc"><div class="n mono" id="pxEth">—</div><div class="l">≈ per share (ETH)</div></div>
+        <div class="pc"><div class="n mono" id="ethSpot">—</div><div class="l">ETH / USD</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="prow"><span class="pk">Max supply</span><span class="pv">4,440,000,000 $AGI</span></div>
+      <div class="prow"><span class="pk">Paid shares</span><span class="pv">444,000</span></div>
+      <div class="prow"><span class="pk">Free shares</span><span class="pv">1,000 (500 WL + 500 public)</span></div>
+      <div class="prow"><span class="pk">Pool opens at</span><span class="pv">10,000 paid shares</span></div>
+      <div class="prow"><span class="pk">At open</span><span class="pv">80% liquidity · 20% treasury</span></div>
+      <div class="prow"><span class="pk">LP tokens</span><span class="pv">burned to 0x…dEaD</span></div>
+      <div class="prow"><span class="pk">Floor line</span><span class="pv">~1.8× total paid</span></div>
+      <div class="prow"><span class="pk">Trade tax</span><span class="pv">1% buy · 1% sell · 0% w2w</span></div>
+      <div class="prow"><span class="pk">Caps</span><span class="pv">paid 15/wallet · free 5/agent</span></div>
+      <div class="prow"><span class="pk">Refund</span><span class="pv">100% ETH if pool never opens (30 days)</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- faq -->
+<section id="faq"><div class="wrap">
+  <div class="eyebrow up mono"><span class="ln"></span> FAQ</div>
+  <h2>Common questions</h2>
+  <div class="faq">
+    <div class="qa"><div class="q">Can a normal wallet (MetaMask) mint?</div><div class="a">No — minting is agentic-wallet only. You need a Binance Agentic Wallet holding a verified <span class="mono">.ai</span> Agent ID. After the pool opens, any wallet can buy $AGI on Uniswap.</div></div>
+    <div class="qa"><div class="q">How do I mint?</div><div class="a">Enter your Agent ID above, copy the generated prompt, and hand it to your agent. It fetches a signed voucher and submits the mint through your Agentic Wallet — you never sign anything in a browser.</div></div>
+    <div class="qa"><div class="q">When can I trade?</div><div class="a">When the paid round reaches 10,000 shares, the Uniswap V2 pool opens automatically and trading switches on. Before that, tokens are non-transferable.</div></div>
+    <div class="qa"><div class="q">Can it rug?</div><div class="a">No owner/admin function can withdraw escrow, the pool, or the LP — none exists. LP is burned to <span class="mono">0x…dEaD</span>, pre-open payments are 100% refundable for 30 days, tax is a fixed constant, and supply is capped. <a href="/docs/#norug">Read the anti-rug rules</a>.</div></div>
+    <div class="qa"><div class="q">What if the pool never opens?</div><div class="a">Every pre-open payment is 100% refundable in ETH, 30 days after the first mint. Check and reclaim on the <a href="/refund">refund page</a>.</div></div>
+  </div>
+</div></section>
+
+<!-- contracts -->
+<section id="contracts"><div class="wrap">
+  <div class="eyebrow up mono"><span class="ln"></span> Contracts</div>
+  <h2>Verify before you mint</h2>
+  <p class="muted" style="max-width:680px">Deployed and verified on Ethereum mainnet. The one source of truth is <a class="mono" href="/api/contract" target="_blank" rel="noopener" style="color:var(--green);text-decoration:underline">/api/contract</a>. Confirm the address there and on Etherscan before your agent signs anything; ignore any $AGI address from anywhere else.</p>
+  <div class="addrs">
+    <div class="arow"><span class="ak">$AGI token</span><span class="av" id="a-token">—</span></div>
+    <div class="arow"><span class="ak">Mint contract</span><span class="av" id="a-mint">—</span></div>
+    <div class="arow"><span class="ak">Uniswap V2 pair</span><span class="av" id="a-pair">—</span></div>
+    <div class="arow"><span class="ak">Agent-ID registry (BNB)</span><span class="av" id="a-reg">—</span></div>
+  </div>
+  <p class="sot mono">Minting is time-gated in the contract to Nov 5, 15:00 UTC and cannot be opened earlier by anyone.</p>
+</div></section>
+
+<footer><div class="fwrap">
+  <div class="fgrid">
+    <div class="fbrand">
+      <a class="brand" href="/" style="font-size:20px"><img class="mark" src="/assets/logo.png" alt="" /> AgentID</a>
+      <p class="mono" style="font-size:12.5px;opacity:.62;margin:14px 0 0;max-width:300px;line-height:1.6">The first ERC-20 minted by an agentic wallet on Ethereum.</p>
+      <div class="ficons">
+        <a href="https://x.com/AgentIdETH" target="_blank" rel="noopener" aria-label="X"><img src="/assets/icons/x.svg" alt="X"></a>
+        <a href="https://dexscreener.com/ethereum/0xBF01c3eF1Bc368288067d4AC49bA9b147DE3a461" target="_blank" rel="noopener" aria-label="DexScreener"><img src="/assets/icons/dexscreener.png" alt="DexScreener"></a>
+        <span class="soon-ico" aria-label="CoinMarketCap (soon)" title="CoinMarketCap — listing soon"><img src="/assets/icons/cmc.svg" alt="CoinMarketCap"></span>
+        <a href="https://app.uniswap.org/swap?chain=mainnet&outputCurrency=0xBF01c3eF1Bc368288067d4AC49bA9b147DE3a461" target="_blank" rel="noopener" aria-label="Uniswap"><img src="/assets/icons/uniswap.svg" alt="Uniswap"></a>
+      </div>
+    </div>
+    <div class="fcol"><div class="fh">Protocol</div><a href="/docs">Docs</a><a href="/tasks">Tasks</a><a href="/mint">Mint</a><a href="/refund">Refund</a><a href="/llms.txt" target="_blank" rel="noopener">llms.txt</a></div>
+    
+    <div class="fcol"><div class="fh">Token</div><span class="mono" style="opacity:.7">$AGI</span><span class="mono" style="opacity:.55">Ethereum Mainnet</span></div>
+  </div>
+  <div class="fbar">
+    <span class="mono" style="opacity:.55">© 2026 AgentID</span>
+    <span class="sp"></span>
+    <span class="mono" style="opacity:.55">Not financial advice. Verify every address on Etherscan before signing.</span>
+  </div>
+</div></footer>
+
+<script>
+// ---- launch countdown (Nov 5, 15:00 UTC) ----
+const LAUNCH_TS = Date.UTC(2026, 10, 5, 15, 0, 0);
+let ONCHAIN_OPENED=false, FIRST_MINT_TS=0, REFUND_WINDOW=2592000;
+function pad(n){return String(n).padStart(2,'0')}
+function tick(){
+  const now=Date.now(); const g=id=>document.getElementById(id);
+  const label=g('cdlabel'), cd=g('cd'), lb=g('livebadge'), nav=g('navcd');
+  let mode, target, text;
+  if(ONCHAIN_OPENED){ mode='open'; }
+  else if(now < LAUNCH_TS){ mode='pre'; target=LAUNCH_TS; text='Mint opens · Nov 5, 15:00 UTC'; }
+  else if(FIRST_MINT_TS>0){ mode='refund'; target=(FIRST_MINT_TS+REFUND_WINDOW)*1000; text='Pre-open refund · unlocks in'; }
+  else { mode='livenomint'; }
+  // states with no countdown: show a live badge, hide the boxes
+  if(mode==='open' || mode==='livenomint'){
+    if(cd) cd.style.display='none';
+    if(label) label.style.display='none';
+    if(lb){ lb.style.display='block'; const p=lb.querySelector('.pill'); if(p) p.innerHTML='<span class="dot"></span> '+(mode==='open'?'Pool live · trading open':'Mint is live'); }
+    if(nav) nav.textContent='Mint · live';
+    return;
+  }
+  // countdown states (pre-launch, or refund window): count down to target
+  if(cd) cd.style.display='';
+  if(label){ label.style.display=''; label.textContent=text; }
+  if(lb) lb.style.display='none';
+  let t=target-now; if(t<0)t=0;
+  const d=Math.floor(t/86400000); t-=d*86400000;
+  const h=Math.floor(t/3600000); t-=h*3600000;
+  const m=Math.floor(t/60000); t-=m*60000; const s=Math.floor(t/1000);
+  const set=(id,v)=>{const e=g(id); if(e)e.textContent=pad(v)};
+  set('cd-d',d); set('cd-h',h); set('cd-m',m); set('cd-s',s);
+  if(nav) nav.textContent = (mode==='pre') ? `Mint · ${d}d ${pad(h)}h ${pad(m)}m` : 'Mint · live';
+}
+tick(); setInterval(tick,1000);
+
+// ---- ladder chart ----
+function priceUsd(n){ if(n<=10000) return 1.00; const band=Math.floor((n-1)/10000); return 1.00+band*0.16; }
+let CURPAID=0;
+function drawLadder(){
+  const c=document.getElementById('ladder'); if(!c) return;
+  const dpr=window.devicePixelRatio||1; const W=c.clientWidth||620, H=320;
+  c.width=W*dpr; c.height=H*dpr; const x=c.getContext('2d'); x.scale(dpr,dpr);
+  x.clearRect(0,0,W,H);
+  const padL=46,padB=42,padT=18,padR=16; const w=W-padL-padR, h=H-padT-padB;
+  const maxN=444000, maxP=8.04;
+  const px=n=>padL+(n/maxN)*w, py=p=>padT+h-(p/maxP)*h;
+  // grid + y labels
+  x.strokeStyle='rgba(47,53,112,.1)'; x.fillStyle='rgba(47,53,112,.5)';
+  x.font='10px "IBM Plex Mono",monospace'; x.textAlign='right';
+  for(let p=0;p<=8;p+=2){ const yy=py(p); x.beginPath(); x.moveTo(padL,yy); x.lineTo(W-padR,yy); x.stroke(); x.fillText('$'+p,padL-6,yy+3); }
+  // x labels + axis title
+  x.textAlign='center';
+  [0,100000,200000,300000,444000].forEach(n=>{ x.fillText(n>=1000?(n/1000)+'k':n, px(n), padT+h+16); });
+  x.fillStyle='rgba(47,53,112,.42)'; x.font='9px "IBM Plex Mono",monospace';
+  x.fillText('PAID SHARES MINTED', padL+w/2, padT+h+31);
+  // price envelope: flat $1 to pool-open (10k), then straight rise to $8.04 at 444k
+  x.lineJoin='round'; x.lineCap='round';
+  x.beginPath(); x.lineWidth=2.5; x.strokeStyle='#5563D8';
+  x.moveTo(px(1),py(1)); x.lineTo(px(10000),py(1)); x.lineTo(px(maxN),py(maxP)); x.stroke();
+  // fill under
+  x.lineTo(px(maxN),py(0)); x.lineTo(px(1),py(0)); x.closePath();
+  const g=x.createLinearGradient(0,padT,0,padT+h); g.addColorStop(0,'rgba(85,99,216,.16)'); g.addColorStop(1,'rgba(85,99,216,0)'); x.fillStyle=g; x.fill();
+  // pool-open marker at 10k
+  const mx=px(10000); x.setLineDash([4,4]); x.strokeStyle='rgba(47,53,112,.32)'; x.beginPath(); x.moveTo(mx,padT+2); x.lineTo(mx,padT+h); x.stroke(); x.setLineDash([]);
+  x.fillStyle='rgba(47,53,112,.6)'; x.textAlign='left'; x.font='9.5px "IBM Plex Mono",monospace'; x.fillText('pool opens · 10k',mx+5,padT+11);
+  // endpoint dot + label
+  const eX=px(maxN),eY=py(maxP);
+  x.beginPath(); x.arc(eX,eY,3.5,0,7); x.fillStyle='#5563D8'; x.fill();
+  x.fillStyle='#2f3570'; x.textAlign='right'; x.font='500 11px "IBM Plex Mono",monospace'; x.fillText('$8.04',eX-6,eY+4);
+  // live "now" dot + price pill (sits on the drawn envelope)
+  const cn=Math.max(1,Math.min(maxN,CURPAID||0));
+  const cp=(cn<=10000)?1:(1+7.04*(cn-10000)/(maxN-10000));
+  const cX=px(cn), cY=py(cp);
+  x.beginPath(); x.arc(cX,cY,8,0,7); x.fillStyle='rgba(85,99,216,.18)'; x.fill();
+  x.beginPath(); x.arc(cX,cY,4,0,7); x.fillStyle='#5563D8'; x.fill();
+  const lbl='now · $'+priceUsd(cn).toFixed(2);
+  x.font='500 10px "IBM Plex Mono",monospace'; const tw=x.measureText(lbl).width;
+  const toR=cX<padL+w-tw-16; const lx=toR?cX+11:cX-11-tw; const ly=cY-10;
+  x.fillStyle='rgba(236,238,252,.92)'; x.fillRect(lx-4,ly-11,tw+8,16);
+  x.fillStyle='#2f3570'; x.textAlign='left'; x.fillText(lbl,lx,ly+1);
+}
+window.addEventListener('resize',drawLadder);
+
+// ---- live data (same-origin /api/* ; works on the domain, and via the local preview proxy) ----
+const el=id=>document.getElementById(id);
+function short(a){ return a? a.slice(0,10)+'…'+a.slice(-6):'—'; }
+let ETH=0;
+async function j(u){ const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw 0; return r.json(); }
+
+async function loadContract(){
+  try{
+    const d=await j('/api/contract');
+    const link=(a,path)=>a? '<a href="https://etherscan.io/'+path+'/'+a+'" target="_blank" rel="noopener">'+a+'</a>':'—';
+    el('a-token').innerHTML=link(d.token,'token');
+    el('a-mint').innerHTML=link(d.mint,'address');
+    el('a-pair').innerHTML=link(d.pair,'address');
+    el('a-reg').innerHTML = d.registry ? '<a href="https://bscscan.com/address/'+d.registry+'" target="_blank" rel="noopener">'+d.registry+'</a>' : '—';
+    if(d.token){ const uni='https://app.uniswap.org/swap?chain=mainnet&outputCurrency='+d.token; el('t-uni').href=uni; el('nav-trade').href=uni; }
+    if(d.pair){ el('t-chart').href='https://dexscreener.com/ethereum/'+d.pair; }
+    MINT=d.mint||''; renderPrompt();
+  }catch(e){ renderPrompt(); }
+}
+async function loadStats(){ /* rounds show minted counts; all 0 pre-mint, nothing to update yet */ }
+async function loadEth(){
+  try{
+    const d=await j('/api/ethusd'); ETH=d.eth_usd||0;
+    if(ETH){ el('ethSpot').textContent='$'+ETH.toLocaleString(undefined,{maximumFractionDigits:0});
+      el('pxEth').textContent=(1.00/ETH).toFixed(6); }
+  }catch(e){}
+}
+function ethf(wei){ let n=Number(BigInt(wei))/1e18; if(!n) return '0 ETH'; return (n>=1?n.toFixed(2):n.toFixed(4))+' ETH'; }
+async function loadOnchain(){
+  try{
+    const d=await j('/api/onchain'); if(!d||!d.ok) return;
+    el('st-paid').textContent=(d.paid_minted||0).toLocaleString();
+    el('st-escrow').textContent=ethf(d.escrow_wei||'0');
+    el('st-raised').textContent=ethf(d.raised_wei||'0');
+    el('st-burn').textContent=Number(BigInt(d.burned_wei||'0')/(10n**18n)).toLocaleString();
+    el('st-wl').textContent=(d.wl_claimed||0)+' / 500';
+    el('st-pub').textContent=(d.public_claimed||0)+' / 500';
+    el('st-supply').textContent=Number(BigInt(d.supply_wei||'0')/(10n**18n)).toLocaleString();
+    el('st-pool').textContent=d.opened?'Open':'Not open';
+    // round-card live progress bars (shares minted per phase)
+    const wlc=d.wl_claimed||0, puc=d.public_claimed||0, pm=d.paid_minted||0;
+    el('wlN').textContent=wlc.toLocaleString(); el('wlBar').style.width=Math.min(100,wlc/500*100)+'%';
+    el('pubN').textContent=puc.toLocaleString(); el('pubBar').style.width=Math.min(100,puc/500*100)+'%';
+    el('paidN').textContent=pm.toLocaleString(); el('paidBar').style.width=Math.min(100,pm/444000*100)+'%';
+    CURPAID=pm; drawLadder();
+    el('priceTag').textContent = pm>0 ? ('tier '+'$'+priceUsd(pm).toFixed(2)) : 'from $1';
+    if((wlc+puc+pm)>0 || d.opened){ const rn=el('roundsNote'); if(rn) rn.innerHTML='Live on Ethereum mainnet. Figures update as agents mint.'; }
+    // hero progress bar (paid ladder = the tiered track) + 3-phase legend
+    const total=wlc+puc+pm;
+    el('hp-total').textContent=total.toLocaleString();
+    el('hp-fill').style.width=Math.min(100,total/445000*100)+'%';
+    el('hp-tier').textContent = 'current tier $'+priceUsd(Math.max(1,pm)).toFixed(2);
+    const gw = (d.gas_gwei!=null) ? ' · '+d.gas_gwei+' gwei' : '';
+    const ns=el('navstat'); if(ns) ns.textContent = total.toLocaleString()+' / 445,000 · $'+priceUsd(Math.max(1,pm)).toFixed(2)+gw;
+    if(d.opened){ const ts=el('trade'); if(ts) ts.style.display=''; const nt=el('nav-trade'); if(nt) nt.style.display=''; }
+    ONCHAIN_OPENED=!!d.opened; FIRST_MINT_TS=d.first_mint_ts||0; REFUND_WINDOW=d.refund_window||2592000;
+  }catch(e){}
+}
+let MINT='', HANDLE='', WALLET='', WLALLOC='', WLA='', PUBB='', PAID=0;
+function setPaid(v){ PAID=Math.max(0,Math.min(15,parseInt(v)||0)); const e=el('paidN'); if(e&&String(PAID)!==e.value)e.value=PAID; renderPrompt(); }
+function composeMintTweet(){
+  const ref=(HANDLE||'').replace(/\.ai$/,'')||'mint';
+  const text='Just minted $AGI on Ethereum with my agentic wallet.\n\n'
+    +'The agent-native ERC-20 on Ethereum. Agent-gated, LP burned, fair.\n\n'
+    +'Mint yours: agentideth.com/mint?ref='+ref;
+  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank','noopener');
+}
+function shortW(a){ return a? a.slice(0,6)+'…'+a.slice(-4):''; }
+function note(msg,ok){ const n=el('fillNote'); if(!n) return; n.textContent=msg; n.classList.toggle('ok',!!ok); }
+function renderPrompt(){
+  const h=HANDLE||'yourname.ai', w=WALLET||'0xYourWallet';
+  const known=(WLALLOC!=='');
+  const wla=known?(WLA||0):0, pubb=known?(PUBB||0):0, isWL=wla>0;
+  const steps=[];
+  steps.push('1. GET /api/contract (deployed:true) -> use the returned "mint" address.');
+  steps.push('2. GET /api/alloc?handle='+h+' -> read my allocation (wl_alloc, public_bonus).');
+  let n=3;
+  if(!known){
+    steps.push((n++)+'. Whitelist free (if whitelisted) -> POST /api/voucher {"wl":true,"shares":1}, then mintFree(agent_id, true, shares, nonce, deadline, sig).');
+    steps.push((n++)+'. Public free -> POST /api/voucher {"wl":false,"shares":1}, then mintFree(agent_id, false, shares, nonce, deadline, sig).');
+  } else {
+    if(isWL) steps.push((n++)+'. Whitelist free -> POST /api/voucher {"wl":true,"shares":'+wla+'}, then mintFree(agent_id, true, shares, nonce, deadline, sig).');
+    const ps = isWL ? pubb : 1;
+    if(ps>0) steps.push((n++)+'. Public free'+(isWL?' (reserved from my invites)':' (open round, first come)')+' -> POST /api/voucher {"wl":false,"shares":'+ps+'}, then mintFree(agent_id, false, shares, nonce, deadline, sig).');
+  }
+  const paid=Math.max(0,Math.min(15,PAID||0));
+  if(paid<=0){
+    steps.push((n++)+'. Paid (optional) -> set "Paid shares to mint" above, then POST /api/voucher {"paid":true,"shares":<=10 per call (fresh nonce)}, then mint(shares, agent_id, nonce, deadline, sig, maxCost, minTokensOut) paying ETH. Max 15/wallet, 10/tx.');
+  } else {
+    let left=paid, bi=0;
+    while(left>0){ const b=Math.min(10,left); bi++;
+      steps.push((n++)+'. Paid'+(paid>10?(' batch '+bi+' ('+b+' shares)'):' ('+b+' share'+(b>1?'s':'')+')')+' -> POST /api/voucher {"paid":true,"shares":'+b+'} (fresh nonce), then mint('+b+', agent_id, nonce, deadline, sig, maxCost, minTokensOut) paying ETH.');
+      left-=b; }
+  }
+  steps.push((n++)+'. Report each tx hash and the total $AGI received.');
+  const P='Mint my AgentID ($AGI) on Ethereum mainnet with my Binance Agentic Wallet.\n'
+    +'Agent ID: '+h+'   Wallet: '+w+'   Base: https://agentideth.com\n\n'
+    +steps.join('\n')+'\n\n'
+    +'Every /api/voucher body also sends handle, minter (my wallet), a random nonce,\n'
+    +'and deadline = now + 3600. The backend returns the signature; free mints send no ETH.';
+  const e=el('p-all'); if(e) e.textContent=P;
+}
+let _dt=null;
+function setPanelDefault(){
+  el('ap-wl').textContent='1 / Agent ID'; el('ap-wl').classList.remove('hl');
+  el('ap-inv').textContent='—'; el('ap-wallet').textContent='—';
+  el('claimLine').innerHTML='Enter your Agent ID above to see your exact whitelist allocation, invites, and what you can claim at the mint.';
+}
+function onHandleInput(){
+  HANDLE=el('myHandle').value.trim().toLowerCase(); WALLET=''; WLALLOC='';
+  setPanelDefault(); renderPrompt();
+  clearTimeout(_dt);
+  if(/\.ai$/.test(HANDLE)) _dt=setTimeout(loadMe, 400); // auto-load when a full handle is pasted
+}
+async function loadMe(){
+  const h=el('myHandle').value.trim().toLowerCase();
+  if(!/\.ai$/.test(h)){ note('Enter a valid yourname.ai handle.'); return; }
+  HANDLE=h; renderPrompt(); note('Checking…');
+  try{
+    const r=await fetch('/api/alloc?handle='+encodeURIComponent(h),{cache:'no-store'});
+    const d=await r.json();
+    if(!r.ok){
+      WALLET=''; WLALLOC=''; renderPrompt(); setPanelDefault();
+      el('ap-wl').textContent='not registered';
+      el('claimLine').innerHTML='Not registered yet. Register and finish the tasks on the <a href="/" style="color:var(--green);text-decoration:underline">whitelist page</a> before the Nov 5, 13:00 UTC cutoff to qualify for a public free share. Any verified .ai Agent ID can mint the <b>paid ladder</b> at the mint.';
+      note('Agent ID added — not registered for the whitelist.');
+      return;
+    }
+    WALLET=d.wallet||''; WLALLOC=d.wl? String(d.alloc||0):'0'; WLA=(d.wl_alloc!=null?d.wl_alloc:(d.wl?1:0)); PUBB=(d.public_bonus!=null?d.public_bonus:0);
+    renderPrompt();
+    const alloc=d.alloc||0;
+    el('ap-wl').textContent = d.wl ? (alloc+' free reserved') : 'not whitelisted';
+    el('ap-wl').classList.toggle('hl', !!d.wl);
+    el('ap-inv').textContent = (d.invites||0);
+    el('ap-wallet').textContent = shortW(WALLET)||'—';
+    el('claimLine').innerHTML = d.wl
+      ? ('You can claim at the mint: <b>'+WLA+'</b> whitelist free'+(PUBB>0?(' · <b>'+PUBB+'</b> public free (reserved)'):'')+' · <b>up to 15</b> paid. All $0 except paid.<br><span style="opacity:.7;font-size:12.5px">Guaranteed and reserved to your Agent ID: no one else can claim it, and it doesn\'t expire when the mint opens. Claim whenever gas fees are low.</span>')
+      : ('You can claim at the mint: <b>1</b> public free (first come) · <b>up to 15</b> paid. All $0 except paid.');
+    note('Filled · '+shortW(WALLET)+' · '+(d.wl?(alloc+' free reserved'):'not whitelisted'), true);
+  }catch(e){ note('Something went wrong. Try again.'); }
+}
+function cp(id,btn){ const t=el(id).textContent; navigator.clipboard&&navigator.clipboard.writeText(t); const o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(()=>btn.textContent=o,1400); }
+
+drawLadder(); renderPrompt(); loadContract(); loadStats(); loadEth(); loadOnchain();
+setInterval(loadStats,30000); setInterval(loadOnchain,30000);
+</script>
+</body>
+</html>
